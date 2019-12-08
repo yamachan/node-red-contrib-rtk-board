@@ -1,0 +1,32 @@
+{
+  "name": "node-red-contrib-rtk-board",
+  "version": "0.0.1",
+  "description": "A simple board function and node set for Node-RED",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+      "nodes": {
+          "rtk-board-config": "rtk-board/config.js",
+          "rtk-board-output": "rtk-board/output.js"
+      }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yamachan/node-red-contrib-rtk-board.git"
+  },
+  "keywords": [],
+  "author": "Toshio Yamashita",
+  "license": "Apache License 2.0",
+  "bugs": {
+    "url": "https://github.com/yamachan/node-red-contrib-rtk-board/issues"
+  },
+  "homepage": "https://github.com/yamachan/node-red-contrib-rtk-board#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "path": "^0.12.7",
+    "serve-static": "^1.14.1",
+    "socket.io": "^2.3.0"
+  }
+}

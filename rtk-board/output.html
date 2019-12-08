@@ -1,0 +1,29 @@
+<script type="text/javascript">
+RED.nodes.registerType('rtk-board-output',{
+	category: 'RTK Board',
+	defaults: {
+		board: { type: "rtk-board-config" },
+		name: { value: "" }
+	},
+	label: function() {
+		return this.name || "RTK Board Output";;
+	},
+	inputs: 1,
+	paletteLabel: "output",
+    icon: "inject.png",
+	color: "#87A980",
+    align: "right"
+});
+</script>
+
+<script type="text/x-red" data-template-name="rtk-board-output">
+  <div class="form-row">
+    <label for="node-input-board"><i class="fa fa-cog"></i> RTK Board</label>
+    <select id="node-input-board">
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
