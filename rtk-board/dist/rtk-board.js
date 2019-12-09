@@ -27,10 +27,13 @@ $(function () {
 		param.sb_red = 'rgba(247,171,173,0.85)';
 		param.sb_blue = 'rgba(126,203,220,0.85)';
 	}
-	function _conv(_v, _default) {
+	function _conv(_v, _default, _base) {
 		var $ = param;
 		_v = !_v || _v === '_' ? _default : _v.match(/^\$\(.+\)$/) ? eval(_v.substring(1)) : _v.match(/^\$\w+$/) ? param[_v.substring(1)] : _v;
-		return typeof _v === 'string' && _v.match(/^-?[0-9.]+$/) ? Number(_v) : _v;
+		if (typeof _v === 'string') {
+			_v = _base && _v.match(/^-?[0-9.]+%$/) ? _base * Number(_v.substring(0,_v.length - 1)) / 100 : _v.match(/^-?[0-9.]+$/) ? Number(_v) : _v;
+		}
+		return _v;
 	}
 	function b_cls(_c) {
 		var c = _c ? _c : conf.type === 'sb' ? "#1d543f" : _o[1].type === 'bb' ? "black" : "white";
@@ -59,9 +62,6 @@ $(function () {
 					case 'cls':
 						b_cls(_conv(q[1]));
 						break;
-					case 'let':
-						param[_conv(q[1])] = _conv(q[2]);
-						break;
 					case 'c':
 					case 'color':
 						context.fillStyle = param._color = _conv(q[1], 'black');
@@ -70,35 +70,40 @@ $(function () {
 					case 'width':
 						context.lineWidth = param._width = _conv(q[1], 10);
 						break;
+					case 'g':
 					case 'go':
-						param._x = Number(_conv(q[1], param._x));
-						param._y = Number(_conv(q[2], param._y));
+					case 'goTo':
+						param._x = Number(_conv(q[1], param._x, conf.width));
+						param._y = Number(_conv(q[2], param._y, conf.height));
+						context.moveTo(param._x, param._y);
 						break;
 					case 'm':
 					case 'move':
 					case 'moveTo':
-						param._x += Number(_conv(q[1], param._x));
-						param._y += Number(_conv(q[2], param._y));
+						param._x += Number(_conv(q[1], param._x, conf.width));
+						param._y += Number(_conv(q[2], param._y, conf.height));
 						context.moveTo(param._x, param._y);
 						break;
+					case 'sr':
 					case 'rect':
-						param._w = _conv(q[1], param._w); param._h = _conv(q[2], param._h);
-						param._x = _conv(q[3], param._x); param._y = _conv(q[4], param._y);
+					case 'strokeRect':
+						param._w = _conv(q[1], param._w, conf.width); param._h = _conv(q[2], param._h, conf.height);
+						param._x = _conv(q[3], param._x, conf.width); param._y = _conv(q[4], param._y, conf.height);
 						context.strokeStyle = _conv(q[5], param._color);
 						context.lineWidth = _conv(q[6], param._width);
 						context.strokeRect(param._x, param._y, param._w, param._h);
 						break;
 					case 'fr':
 					case 'fillRect':
-						param._w = _conv(q[1], param._w); param._h = _conv(q[2], param._h);
-						param._x = _conv(q[3], param._x); param._y = _conv(q[4], param._y);
+						param._w = _conv(q[1], param._w, conf.width); param._h = _conv(q[2], param._h, conf.height);
+						param._x = _conv(q[3], param._x, conf.width); param._y = _conv(q[4], param._y, conf.height);
 						context.fillStyle = _conv(q[5], param._color);
 						context.fillRect(param._x, param._y, param._w, param._h);
 						break;
 					case 'cr':
 					case 'clearRect':
-						param._w = _conv(q[1], param._w); param._h = _conv(q[2], param._h);
-						param._x = _conv(q[3], param._x); param._y = _conv(q[4], param._y);
+						param._w = _conv(q[1], param._w, conf.width); param._h = _conv(q[2], param._h, conf.height);
+						param._x = _conv(q[3], param._x, conf.width); param._y = _conv(q[4], param._y, conf.height);
 						context.clearRect(param._x, param._y, param._w, param._h);
 						break;
 
@@ -113,14 +118,18 @@ $(function () {
 					case 'l':
 					case 'line':
 					case 'lineTo':
-						param._x += Number(_conv(q[1], param._x));
-						param._y += Number(_conv(q[2], param._y));
+						param._x += Number(_conv(q[1], param._x), conf.width);
+						param._y += Number(_conv(q[2], param._y), conf.height);
+						context.strokeStyle = _conv(q[3], param._color);
+						context.lineWidth = _conv(q[4], param._width);
 						context.lineTo(param._x, param._y);
 						break;
 					case 'arc':
-						param._r = _conv(q[1], param._r);
-						param._x = _conv(q[2], param._x); param._y = _conv(q[3], param._y);
+						param._r = _conv(q[1], param._r, Math.min(conf.width, conf.height));
+						param._x = _conv(q[2], param._x, conf.width); param._y = _conv(q[3], param._y, conf.height);
 						param._sa = _conv(q[4], param._sa); param._ea = _conv(q[5], param._ea);
+						context.strokeStyle = _conv(q[6], param._color);
+						context.lineWidth = _conv(q[7], param._width);
 						context.arc(param._x, param._x, param._r, Math.PI * param._sa, Math.PI * param._ea);
 						break;
 					case 'f':
@@ -133,9 +142,21 @@ $(function () {
 						context.strokeStyle = _conv(q[1], param._color);
 						context.stroke();
 						break;
+
+					case 'let':
+						param[_conv(q[1])] = _conv(q.slice(2).join(' '));
+						break;
+					case 'add':
+						param[_conv(q[1])] += _conv(q.slice(2).join(' '));
+						break;
+					case 'sub':
+						param[_conv(q[1])] -= _conv(q.slice(2).join(' '));
+						break;
+
 					default:
 						console.error('rtk-board: ' + JSON.stringify(que[l]));
 				}
+				//console.dir(param)
 			}
 		}
 		//console.log("rtk-output: param = ", JSON.stringify(param));
