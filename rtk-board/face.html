@@ -1,0 +1,24 @@
+<script type="text/javascript">
+RED.nodes.registerType('rtk-board-face',{
+	category: 'RTK Board',
+	defaults: {
+		name: { value: "" }
+	},
+	label: function() {
+		return this.name || "RTK Face";;
+	},
+	inputs: 1,
+	outputs: 1,
+	paletteLabel: "face",
+    icon: "font-awesome/fa-smile-o",
+	color: "#87A980",
+    align: "left"
+});
+</script>
+
+<script type="text/x-red" data-template-name="rtk-board-face">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+</script>
