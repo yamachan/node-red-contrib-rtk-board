@@ -20,6 +20,7 @@ $(function () {
 		param._w = 50; param._h = 50;
 		param._r = 50;
 		param._sa = 0; param._ea = 2;
+		param._rand_bound = 2;
 
 		param.T = true; param.F = false;
 		param.sb_white = 'rgba(255,255,255,0.85)';
@@ -39,6 +40,9 @@ $(function () {
 		var c = _c ? _c : conf.type === 'sb' ? "#1d543f" : _o[1].type === 'bb' ? "black" : "white";
 		$(target).css("width", conf.width + "px").css("height", conf.height + "px").css("backgroundColor", c);
 		context.clearRect(0, 0, target.width, target.height);
+	}
+	function check_step(_v) {
+		return !!_v && typeof _v === 'number' ? _v : 0;
 	}
 
 	var inited = false;
@@ -152,7 +156,34 @@ $(function () {
 					case 'sub':
 						param[_conv(q[1])] -= _conv(q.slice(2).join(' '));
 						break;
+					case 'rand':
+						param._rand_bound = _conv(q[2], param._rand_bound);
+						param[_conv(q[1])] = Math.floor(Math.random() * Math.floor(param._rand_bound));
+					break;
 
+					case 'skip':
+						param._step_delta = _conv(q[1], 0);
+						l += check_step(param._step_delta);
+						break;
+					case 'if':
+						param._condition = _conv(q[1], param._condition);
+						param._step_delta = _conv(q[2], 0);
+						if (param._condition !== 0) {
+							l += check_step(param._step_delta);
+						}
+						break;
+					case 'loop':
+						console.dir(q);
+						var count = _conv('$' + q[1], 0) - 1;
+						console.log("c="+count);
+						param._step_delta = _conv(q[2], 0);
+						if (count !== 0 && !!check_step(param._step_delta)) {
+							param[_conv(q[1])] = count;
+							l += param._step_delta
+						}
+						break;
+					case 'nop':
+						break;
 					default:
 						console.error('rtk-board: ' + JSON.stringify(que[l]));
 				}

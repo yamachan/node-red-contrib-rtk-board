@@ -50,3 +50,13 @@ An under bar character ``_`` means the same as before command in argument list. 
 | let | variable, value | Assign a value to a variable |
 | add | variable, value | Add a value to a variable |
 | sub | variable, value | Sub a value from a variable |
+| rand | variable, rand_bound | Assign a random value to a variable |
+
+## Other Commands
+
+| Command | Arguments | Description |
+| :-- | :-- | :-- |
+| skip | step_delta | Change step with step_delta |
+| if | condition_variable, step_delta | If condition is not 0, change step with step_delta |
+| loop | name_of_counter_variable, step_delta | Sub 1 from counter;<br>If counter is 0, change step with step_delta |
+| nop | - | Do nothing |
