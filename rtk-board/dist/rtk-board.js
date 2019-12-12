@@ -134,7 +134,7 @@ $(function () {
 						param._sa = _conv(q[4], param._sa); param._ea = _conv(q[5], param._ea);
 						context.strokeStyle = _conv(q[6], param._color);
 						context.lineWidth = _conv(q[7], param._width);
-						context.arc(param._x, param._x, param._r, Math.PI * param._sa, Math.PI * param._ea);
+						context.arc(param._x, param._y, param._r, Math.PI * param._sa, Math.PI * param._ea);
 						break;
 					case 'f':
 					case 'fill':
@@ -185,7 +185,13 @@ $(function () {
 					case 'nop':
 						break;
 					default:
-						console.error('rtk-board: ' + JSON.stringify(que[l]));
+						if (q[0].startsWith('##')) {
+							console.log('rtk-board: ' + q.join(' ').substring(2));
+						} else if (q[0].startsWith('#')) {
+							// label
+						} else {
+							console.log('rtk-board (skip): ' + JSON.stringify(que[l]));
+						}
 				}
 				//console.dir(param)
 			}

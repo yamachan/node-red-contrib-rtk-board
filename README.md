@@ -58,5 +58,5 @@ An under bar character ``_`` means the same as before command in argument list. 
 | :-- | :-- | :-- |
 | skip | step_delta | Change step with step_delta |
 | if | condition_variable, step_delta | If condition is not 0, change step with step_delta |
-| loop | name_of_counter_variable, step_delta | Sub 1 from counter;<br>If counter is 0, change step with step_delta |
+| loop | name_of_counter_variable, step_delta | Sub 1 from counter;<br>If counter is not 0, change step with step_delta |
 | nop | - | Do nothing |

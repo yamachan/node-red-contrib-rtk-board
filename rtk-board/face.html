@@ -2,7 +2,9 @@
 RED.nodes.registerType('rtk-board-face',{
 	category: 'RTK Board',
 	defaults: {
-		name: { value: "" }
+		name: { value: "" },
+		width: {value:"50%"},
+		height: {value:"50%"}
 	},
 	label: function() {
 		return this.name || "RTK Face";;
@@ -20,5 +22,13 @@ RED.nodes.registerType('rtk-board-face',{
   <div class="form-row">
     <label for="node-input-name"><i class="icon-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+	  <label for="node-input-width"><i class="fa fa-arrows-h"></i> Width:</label>
+	  <input type="text" id="node-input-width" placeholder="Width of a face">
+  </div>
+  <div class="form-row">
+	  <label for="node-input-height"><i class="fa fa-arrows-v"></i> Height:</label>
+	  <input type="text" id="node-input-height" placeholder="Height of a face">
   </div>
 </script>

@@ -2,9 +2,9 @@
 RED.nodes.registerType('rtk-board-config',{
 	category: 'config',
 	defaults: {
-		btype: {value:"wb",required:true},
+		btype: {value:"sb",required:true},
 		width: {value:"260",required:true},
-		height: {value:"360",required:true},
+		height: {value:"360",required:true}
 	},
 	label: function() {
 		return this.name || "RTK Board Config";;
@@ -27,17 +27,17 @@ RED.nodes.registerType('rtk-board-config',{
 	<div class="form-row">
 		<label for="node-config-input-btype"><i class="fa fa-cog"></i> Type:</label>
 		<select id="node-config-input-btype">
+			<option value="sb">School board</option>
 			<option value="wb">White board</option>
 			<option value="bb">Black board</option>
-			<option value="sb">School board</option>
 		</select>
 	</div>
 	<div class="form-row">
 		<label for="node-config-input-width"><i class="fa fa-arrows-h"></i> Width:</label>
-		<input type="text" id="node-config-input-width" placeholder="Width of a board">
+		<input type="text" id="node-config-input-width" placeholder="Width of a face">
 	</div>
 	<div class="form-row">
 		<label for="node-config-input-height"><i class="fa fa-arrows-v"></i> Height:</label>
-		<input type="text" id="node-config-input-height" placeholder="Height of a board">
+		<input type="text" id="node-config-input-height" placeholder="Height of a face">
 	</div>
 </script>
