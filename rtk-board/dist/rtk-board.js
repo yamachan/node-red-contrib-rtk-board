@@ -95,15 +95,15 @@ $(function () {
 					case 'strokeRect':
 						param._w = _conv(q[1], param._w, conf.width); param._h = _conv(q[2], param._h, conf.height);
 						param._x = _conv(q[3], param._x, conf.width); param._y = _conv(q[4], param._y, conf.height);
-						context.strokeStyle = _conv(q[5], param._color);
-						context.lineWidth = _conv(q[6], param._width);
+						context.strokeStyle = param._color = _conv(q[5], param._color);
+						context.lineWidth = param._width = _conv(q[6], param._width);
 						context.strokeRect(param._x, param._y, param._w, param._h);
 						break;
 					case 'fr':
 					case 'fillRect':
 						param._w = _conv(q[1], param._w, conf.width); param._h = _conv(q[2], param._h, conf.height);
 						param._x = _conv(q[3], param._x, conf.width); param._y = _conv(q[4], param._y, conf.height);
-						context.fillStyle = _conv(q[5], param._color);
+						context.fillStyle = param._color = _conv(q[5], param._color);
 						context.fillRect(param._x, param._y, param._w, param._h);
 						break;
 					case 'cr':
@@ -140,12 +140,12 @@ $(function () {
 						break;
 					case 'f':
 					case 'fill':
-						context.fillStyle = _conv(q[1], param._color);
+						context.fillStyle = param._color = _conv(q[1], param._color);
 						context.fill();
 						break;
 					case 's':
 					case 'stroke':
-						context.strokeStyle = _conv(q[1], param._color);
+						context.strokeStyle = param._color = _conv(q[1], param._color);
 						context.stroke();
 						break;
 
@@ -179,7 +179,7 @@ $(function () {
 						var count = _conv('$' + q[1], 0) - 1;
 						console.log("c="+count);
 						param._step_delta = _conv(q[2], 0);
-						if (count !== 0 && !!check_step(param._step_delta)) {
+						if (typeof count === 'number' && !Number.isNaN(NaN) && count !== 0 && !!check_step(param._step_delta)) {
 							param[_conv(q[1])] = count;
 							l += param._step_delta
 						}
@@ -188,8 +188,8 @@ $(function () {
 						break;
 
 					case 'face':
-						param._face_type = _conv(q[1], param._face_type);
-						param._face_mode = _conv(q[2], param._face_mode);
+						param._face_mode = _conv(q[1], param._face_mode);
+						param._face_type = _conv(q[2], param._face_type);
 						param._w = _conv(q[3], param._w, conf.width); param._h = _conv(q[4], param._h, conf.height);
 						param._x = _conv(q[5], param._x, conf.width); param._y = _conv(q[6], param._y, conf.height);
 						param._width = _conv(q[7], param._width);

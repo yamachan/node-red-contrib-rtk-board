@@ -60,3 +60,9 @@ An under bar character ``_`` means the same as before command in argument list. 
 | if | condition_variable, step_delta | If condition is not 0, change step with step_delta |
 | loop | name_of_counter_variable, step_delta | Sub 1 from counter;<br>If counter is not 0, change step with step_delta |
 | nop | - | Do nothing |
+
+## Arranged Library Commands
+
+| Command | Arguments | Description |
+| :-- | :-- | :-- |
+| face | face_mode, face_type, w, h, x, y, width, color | Draw a face |
