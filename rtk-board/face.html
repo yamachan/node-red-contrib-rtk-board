@@ -3,8 +3,12 @@ RED.nodes.registerType('rtk-board-face',{
 	category: 'RTK Board',
 	defaults: {
 		name: { value: "" },
-		width: {value:"50%"},
-		height: {value:"50%"}
+		face: {value:"rf"},
+		lwidth: {value:"6"},
+		left: {value:"10%"},
+		top: {value:"10%"},
+		width: {value:"80%"},
+		height: {value:"80%"}
 	},
 	label: function() {
 		return this.name || "RTK Face";;
@@ -20,15 +24,33 @@ RED.nodes.registerType('rtk-board-face',{
 
 <script type="text/x-red" data-template-name="rtk-board-face">
   <div class="form-row">
-    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <label for="node-input-name"><i class="icon-tag" style="width:1em"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
   <div class="form-row">
-	  <label for="node-input-width"><i class="fa fa-arrows-h"></i> Width:</label>
+	  <label for="node-input-face"><i class="fa fa-smile-o" style="width:1em"></i> Type:</label>
+	  <select id="node-input-face">
+		  <option value="rf">Round face</option>
+	  </select>
+  </div>
+  <div class="form-row">
+	  <label for="node-input-lwidth"><i class="fa fa-paint-brush" style="width:1em"></i> Line:</label>
+	  <input type="text" id="node-input-lwidth" placeholder="Line width of a face">
+  </div>
+  <div class="form-row">
+	  <label for="node-input-left"><i class="fa fa-long-arrow-right" style="width:1em"></i> X:</label>
+	  <input type="text" id="node-input-left" placeholder="location X of a face">
+  </div>
+  <div class="form-row">
+	  <label for="node-input-top"><i class="fa fa-long-arrow-down" style="width:1em"></i> Y:</label>
+	  <input type="text" id="node-input-top" placeholder="location Y of a face">
+  </div>
+  <div class="form-row">
+	  <label for="node-input-width"><i class="fa fa-arrows-h" style="width:1em"></i> Width:</label>
 	  <input type="text" id="node-input-width" placeholder="Width of a face">
   </div>
   <div class="form-row">
-	  <label for="node-input-height"><i class="fa fa-arrows-v"></i> Height:</label>
+	  <label for="node-input-height"><i class="fa fa-arrows-v" style="width:1em"></i> Height:</label>
 	  <input type="text" id="node-input-height" placeholder="Height of a face">
   </div>
 </script>

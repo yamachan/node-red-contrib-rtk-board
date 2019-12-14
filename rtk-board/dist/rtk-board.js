@@ -14,13 +14,15 @@ $(function () {
 	var param = {};
 	function b_init() {
 		param = {};
-		param._color = 'black';
+		param._color = conf.type === 'wb' ? 'black' : conf.type === 'bb' ? 'white' : 'rgba(255,255,255,0.85)';
 		param._width = 5;
 		param._x = 0; param._y = 0;
 		param._w = 50; param._h = 50;
 		param._r = 50;
 		param._sa = 0; param._ea = 2;
 		param._rand_bound = 2;
+		param._face_type = 'rf';
+		param._face_mode = 'smile';
 
 		param.T = true; param.F = false;
 		param.sb_white = 'rgba(255,255,255,0.85)';
@@ -37,7 +39,7 @@ $(function () {
 		return _v;
 	}
 	function b_cls(_c) {
-		var c = _c ? _c : conf.type === 'sb' ? "#1d543f" : _o[1].type === 'bb' ? "black" : "white";
+		var c = _c ? _c : conf.type === 'wb' ? 'white' : conf.type === 'bb' ? 'black' : '#1d543f';
 		$(target).css("width", conf.width + "px").css("height", conf.height + "px").css("backgroundColor", c);
 		context.clearRect(0, 0, target.width, target.height);
 	}
@@ -122,18 +124,18 @@ $(function () {
 					case 'l':
 					case 'line':
 					case 'lineTo':
-						param._x += Number(_conv(q[1], param._x), conf.width);
-						param._y += Number(_conv(q[2], param._y), conf.height);
-						context.strokeStyle = _conv(q[3], param._color);
-						context.lineWidth = _conv(q[4], param._width);
+						param._x += Number(_conv(q[1], param._x, conf.width));
+						param._y += Number(_conv(q[2], param._y, conf.height));
+						context.strokeStyle = param._color = _conv(q[3], param._color);
+						context.lineWidth = param._width = _conv(q[4], param._width);
 						context.lineTo(param._x, param._y);
 						break;
 					case 'arc':
 						param._r = _conv(q[1], param._r, Math.min(conf.width, conf.height));
 						param._x = _conv(q[2], param._x, conf.width); param._y = _conv(q[3], param._y, conf.height);
 						param._sa = _conv(q[4], param._sa); param._ea = _conv(q[5], param._ea);
-						context.strokeStyle = _conv(q[6], param._color);
-						context.lineWidth = _conv(q[7], param._width);
+						context.strokeStyle = param._color = _conv(q[6], param._color);
+						context.lineWidth = param._width = _conv(q[7], param._width);
 						context.arc(param._x, param._y, param._r, Math.PI * param._sa, Math.PI * param._ea);
 						break;
 					case 'f':
@@ -184,6 +186,17 @@ $(function () {
 						break;
 					case 'nop':
 						break;
+
+					case 'face':
+						param._face_type = _conv(q[1], param._face_type);
+						param._face_mode = _conv(q[2], param._face_mode);
+						param._w = _conv(q[3], param._w, conf.width); param._h = _conv(q[4], param._h, conf.height);
+						param._x = _conv(q[5], param._x, conf.width); param._y = _conv(q[6], param._y, conf.height);
+						param._width = _conv(q[7], param._width);
+						param._color = _conv(q[8], param._color);
+						RTK_2D_Face(context, param._face_type, param._face_mode, param._w, param._h, param._x, param._y, param._color, param._width);
+						break;
+
 					default:
 						if (q[0].startsWith('##')) {
 							console.log('rtk-board: ' + q.join(' ').substring(2));
