@@ -44,7 +44,10 @@ $(function () {
 		context.clearRect(0, 0, target.width, target.height);
 	}
 	function check_step(_v) {
-		return !!_v && typeof _v === 'number' ? _v : 0;
+		return typeof _v === 'number' && !Number.isNaN(_v) && !!_v && typeof _v === 'number' ? _v : 0;
+	}
+	function _rand(_bound) {
+		return Math.floor(Math.random() * Math.floor(_bound));
 	}
 
 	var inited = false;
@@ -72,6 +75,10 @@ $(function () {
 					case 'color':
 						context.fillStyle = param._color = _conv(q[1], 'black');
 						break;
+					case 'cRand':
+					case 'colorRand':
+						context.fillStyle = param._color = '#' + _rand(256).toString(16) + _rand(256).toString(16) + _rand(256).toString(16);
+						break;
 					case 'w':
 					case 'width':
 						context.lineWidth = param._width = _conv(q[1], 10);
@@ -81,6 +88,13 @@ $(function () {
 					case 'goTo':
 						param._x = Number(_conv(q[1], param._x, conf.width));
 						param._y = Number(_conv(q[2], param._y, conf.height));
+						context.moveTo(param._x, param._y);
+						break;
+					case 'gRand':
+					case 'goRand':
+					case 'goToRand':
+						param._x = _rand(conf.width);
+						param._y = _rand(conf.height);
 						context.moveTo(param._x, param._y);
 						break;
 					case 'm':
@@ -159,8 +173,7 @@ $(function () {
 						param[_conv(q[1])] -= _conv(q.slice(2).join(' '));
 						break;
 					case 'rand':
-						param._rand_bound = _conv(q[2], param._rand_bound);
-						param[_conv(q[1])] = Math.floor(Math.random() * Math.floor(param._rand_bound));
+						param[_conv(q[1])] = _rand(param._rand_bound = _conv(q[2], param._rand_bound));
 					break;
 
 					case 'skip':
@@ -175,13 +188,13 @@ $(function () {
 						}
 						break;
 					case 'loop':
-						console.dir(q);
+						//console.dir(q);
 						var count = _conv('$' + q[1], 0) - 1;
-						console.log("c="+count);
+						param[_conv(q[1])] = count;
+						//console.log("c="+count);
 						param._step_delta = _conv(q[2], 0);
-						if (typeof count === 'number' && !Number.isNaN(NaN) && count !== 0 && !!check_step(param._step_delta)) {
-							param[_conv(q[1])] = count;
-							l += param._step_delta
+						if (!!check_step(count) && !!check_step(param._step_delta)) {
+							l += param._step_delta;
 						}
 						break;
 					case 'nop':

@@ -19,14 +19,19 @@ A percent character ``%`` following the number means relative location against t
 
 An under bar character ``_`` means the same as before command in argument list. The processing unit remember each argument value into the variable (for example, you can refer the last ``x`` location in the variable ``_x``), and this character shows the same value of it.
 
+Start with '#' shows a comment and/or label (label is not implimented yet). Start with '##' shows a comment, and also shows this text into brwser's console.
+
 ## Basic Commands
 
 | Command | Arguments | Description |
 | :-- | :-- | :-- |
 | init | - | Reset internal values |
 | cls | color | Set line/fill color |
+| c<br>color | color | Set color |
+| cRand<br>colorRand | - | Set color randomly |
 | w<br>width | width | Set line width |
 | g<br>go<br>goTo | x, y | Move pen (absolute location) |
+| gRand<br>goRand<br>goToRand | x, y | Move pen (absolute location) randomly |
 | m<br>move<br>moveTo | x, y | Move pen (relative location) |
 | sr<br>rect<br>strokeRect | x, y, w, h, color, width | Draw a rectangle |
 | fr<br>fillRect | x, y, w, h, color, width | Draw a filled rectangle |
