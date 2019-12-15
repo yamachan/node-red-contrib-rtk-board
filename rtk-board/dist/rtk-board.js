@@ -16,11 +16,14 @@ $(function () {
 		param = {};
 		param._color = conf.type === 'wb' ? 'black' : conf.type === 'bb' ? 'white' : 'rgba(255,255,255,0.85)';
 		param._width = 5;
+		param._line_cap = 'butt';
 		param._x = 0; param._y = 0;
 		param._w = 50; param._h = 50;
 		param._r = 50;
-		param._sa = 0; param._ea = 2;
+		param._sa = param._ra = 0; param._ea = 2; // radian
 		param._rand_bound = 2;
+		param._text = '',
+		param._text_font = '30px serif';
 		param._face_type = 'rf';
 		param._face_mode = 'smile';
 
@@ -126,6 +129,27 @@ $(function () {
 						param._x = _conv(q[3], param._x, conf.width); param._y = _conv(q[4], param._y, conf.height);
 						context.clearRect(param._x, param._y, param._w, param._h);
 						break;
+					case 'font':
+					case 'tf':
+					case 'textFont':
+						context.font = param._text_font = _conv(q.slice(1).join(' '));
+						break;
+					case 't':
+					case 'text':
+					case 'ft':
+					case 'fillText':
+						param._text = _conv(q.slice(1).join(' ')).replace('%3B', ';');
+						context.font = param._text_font
+						context.fillStyle = param._color;
+						context.fillText(param._text, param._x, param._y);
+						break;
+					case 'st':
+					case 'strokeText':
+						param._text = _conv(q.slice(1).join(' ')).replace('%3B', ';');
+						context.font = param._text_font
+						context.strokeStyle = param._color;
+						context.strokeText(param._text, param._x, param._y);
+						break;
 
 					case 'bp':
 					case 'beginPath':
@@ -134,6 +158,10 @@ $(function () {
 					case 'cp':
 					case 'closePath':
 						context.closePath();
+						break;
+					case 'lc':
+					case 'lineCap':
+						context.lineCap = param._line_cap += Number(_conv(q[1], _line_cap, Math.min(conf.width, conf.height)));
 						break;
 					case 'l':
 					case 'line':
@@ -151,6 +179,15 @@ $(function () {
 						context.strokeStyle = param._color = _conv(q[6], param._color);
 						context.lineWidth = param._width = _conv(q[7], param._width);
 						context.arc(param._x, param._y, param._r, Math.PI * param._sa, Math.PI * param._ea);
+						break;
+					case 'el':
+					case 'ellipse':
+						param._w = _conv(q[1], param._w, conf.width); param._h = _conv(q[2], param._h, conf.height);
+						param._x = _conv(q[3], param._x, conf.width); param._y = _conv(q[4], param._y, conf.height);
+						param._sa = _conv(q[5], param._sa); param._ea = _conv(q[6], param._ea); param._ra = _conv(q[7], param._ra);
+						context.strokeStyle = param._color = _conv(q[8], param._color);
+						context.lineWidth = param._width = _conv(q[9], param._width);
+						context.ellipse(param._x, param._y, param._w, param._h, Math.PI * param._ra, Math.PI * param._sa, Math.PI * param._ea);
 						break;
 					case 'f':
 					case 'fill':

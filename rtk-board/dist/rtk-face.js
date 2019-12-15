@@ -5,6 +5,8 @@ function RTK_2D_Face(context, _type, _mode, _w, _h, _x, _y, _color, _width) {
 	let y = _y + _h / 2;
 	let r = Math.min(_w / 2, _h / 2);
 
+	context.lineCap = 'round';
+
 	// ----- Face -----
 
 	context.beginPath();

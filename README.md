@@ -36,6 +36,9 @@ Start with '#' shows a comment and/or label (label is not implimented yet). Star
 | sr<br>rect<br>strokeRect | x, y, w, h, color, width | Draw a rectangle |
 | fr<br>fillRect | x, y, w, h, color, width | Draw a filled rectangle |
 | cr<br>clearRect | x, y, w, h | Clear a rectangle area |
+| font<br>tf<br>textFont | text_font | Set text font (e.g. 30px serif) |
+| t<br>text<br>ft<br>fillText | text | Draw filled text |
+| st<br>strokeText | text | Draw text curb |
 
 ## Path Commands
 
@@ -43,8 +46,10 @@ Start with '#' shows a comment and/or label (label is not implimented yet). Star
 | :-- | :-- | :-- |
 | bp<br>beginPath | - | Start a drawing path |
 | cp<br>closePath | - | End a drawing path |
+| lc<br>lineCap | line_cap | Shape used to draw the end points of lines<br>(butt, round or square) |
 | l<br>line<br>lineTo | x, y | Path of line |
-| arc | r, x, y, color, width | Path of arc |
+| arc | r, x, y, sa (start angle), ea (end angle), color, width | Path of arc |
+| el<br>ellipse | w, h, x, y, sa, ea, ra (rotation angle), color, width | Path of ellipse |
 | f<br>fill | color | End a drawing path with stroking |
 | s<br>stroke | color | End a drawing path with filling |
 
