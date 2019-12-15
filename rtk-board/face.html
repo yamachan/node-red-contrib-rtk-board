@@ -54,3 +54,48 @@ RED.nodes.registerType('rtk-board-face',{
 	  <input type="text" id="node-input-height" placeholder="Height of a face">
   </div>
 </script>
+
+<script type="text/x-red" data-help-name="rtk-board-face">
+   <p>The node to draw a face image into RTK Board easily.</p>
+   <h3>Inputs</h3>
+   <dl class="message-properties">
+   	<dt>payload
+   		<span class="property-type">string or Array of string</span>
+   	</dt>
+   	<dd>The last command must be the mode of a face (e.g. smile, ugly, sad, safe, angly, usual)</dd>
+   </dl>
+   <h3>Setting</h3>
+       <dl class="message-properties">
+       <dt>Type
+           <span class="property-type">select</span>
+	   </dt>
+	   <dd>You can select face type.</dd>
+	   <dt>Line
+           <span class="property-type">number or string</span>
+	   </dt>
+	   <dd>You can set the line width of a face drawing.</dd>
+	   <dt>X, Y
+   		<span class="property-type">numbers or string</span>
+	   </dt>
+   	   <dd>The base location of a face.</dd>
+	   <dt>Width, Height
+   		<span class="property-type">number or string</span>
+	   </dt>
+   	   <dd>The drawing box size of a face.</dd>
+	   <dt>Name
+   		<span class="property-type">string</span>
+	   </dt>
+   	   <dd>The name will be shown on the flow editor.</dd>
+       </dl>
+	   <h3>Outputs</h3>
+	   <dl class="message-properties">
+	   	<dt>payload
+	   		<span class="property-type">Array of string</span>
+	   	</dt>
+	   	<dd>The RTK Output command list. The last item was transfered to a composed face command to draw a face.</dd>
+	   </dl>
+   <h3>Details</h3>
+   <p>This is a support node to use 'face' command easily.</p>
+   </p>
+   <p>The detailed information of RTK output commands is <a href="https://github.com/yamachan/node-red-contrib-rtk-board">here</></p>
+</script>

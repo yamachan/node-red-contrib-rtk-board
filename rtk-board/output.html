@@ -29,18 +29,29 @@ RED.nodes.registerType('rtk-board-output',{
 </script>
 
 <script type="text/x-red" data-help-name="rtk-board-output">
-   <p>The node to control RTK Board in Node-RED sidebar area.</p>
-   <h3>Inputs</h3>
-       <dl class="message-properties">
-       <dt>RTK Board
-           <span class="property-type">Set up the config node of RTK board.</span>
-	   <dt>Name
-           <span class="property-type">The name will be shown on the flow editor.</span>
-       </dt>
-   <h3>Details</h3>
-   <p>You can set RTK-Board's commands into msg.payload as a string or strings (array of string).</p>
-   <p>A semicolon (;) character is a separator of commands. A space ( ) character is a separator of arguments.</p>
-   <p><b>Sample of RTK-Board's commands</b>
+<p>The node to control RTK Board in Node-RED sidebar area.</p>
+<h3>Inputs</h3>
+<dl class="message-properties">
+	<dt>payload
+		<span class="property-type">string or Array of string</span>
+	</dt>
+	<dd>The list RTK Output commands to draw on the RTK Board.</dd>
+</dl>
+<h3>Setting</h3>
+<dl class="message-properties">
+	<dt>RTK Board
+		<span class="property-type">RTK Config</span>
+	</dt>
+	<dd>Set up the config node of RTK board.</dd>
+	<dt>Name
+		<span class="property-type">string</span>
+	</dt>
+	<dd>The name will be shown on the flow editor.</dd>
+</dl>
+<h3>Details</h3>
+<p>You can set RTK-Board's commands into msg.payload as a string or strings (array of string).</p>
+<p>A semicolon (;) character is a separator of commands. A space ( ) character is a separator of arguments.</p>
+<p><b>Sample of RTK-Board's commands</b></p>
 <pre>
 cls
 rect 80 60 50 50 red
@@ -48,6 +59,6 @@ fillRect 100 80 70 70 blue
 bp;arc 30 200 40 0 2 yellow;stroke
 bp;arc 60 200 160 0 2 pink;fill
 </pre>
-   </p>
-   <p>The detailed information of these commands is <a href="https://github.com/yamachan/node-red-contrib-rtk-board">here</></p>
+<p>The detailed information of these commands is <a href="https://github.com/yamachan/node-red-contrib-rtk-board">here</>
+</p>
 </script>
