@@ -64,6 +64,14 @@ $(function () {
 		}
 		var que = (Array.isArray(_o[0]) ? _o[0].join(';') : '' + _o[0]).split(/\s*;\s*/);
 		//console.log("rtk-output: ", JSON.stringify(que));
+		let wait_count = 0;
+		let labels = {};
+		for (var l=0; l<que.length; l++) {
+			q = que[l].replace(/(^\s+)|(\s+$)/g, '').split(/\s+/);
+			if (q[0].startsWith('#')) {
+				labels[q[0]] = l - 1;
+			}
+		}
 		for (var l=0; l<que.length; l++) {
 			q = que[l].replace(/(^\s+)|(\s+$)/g, '').split(/\s+/);
 			if (q.length > 0) {
@@ -150,7 +158,42 @@ $(function () {
 						context.strokeStyle = param._color;
 						context.strokeText(param._text, param._x, param._y);
 						break;
-
+					case 'i':
+					case 'img':
+					case 'image':
+						param._src = _conv(q[1], param._src);
+						param._x = _conv(q[2], param._x, conf.width); param._y = _conv(q[3], param._y, conf.height);
+						if (!!param._src) {
+							let img = new Image();
+							img.onload = function(){
+								context.drawImage(img, param._x, param._y);
+								wait_count--;
+							}
+							wait_count++;
+							img.src = param._src;
+						}
+						break;
+					case 'iTo':
+					case 'imgTo':
+					case 'imageTo':
+						param._src = _conv(q[1], param._src);
+						param._w = _conv(q[2], param._w, conf.width); param._h = _conv(q[3], param._h, conf.height);
+						param._x = _conv(q[4], param._x, conf.width); param._y = _conv(q[5], param._y, conf.height);
+						if (!!param._src) {
+							let img = new Image();
+							img.onload = function(){
+								context.drawImage(img, param._x, param._y, param._w, param._h);
+								wait_count--;
+							}
+							wait_count++;
+							img.src = param._src;
+						}
+						break;
+					case 'wait':
+						if (wait_count > 0) {
+							l--;
+						}
+						break;
 					case 'bp':
 					case 'beginPath':
 						context.beginPath();
@@ -221,7 +264,11 @@ $(function () {
 						param._condition = _conv(q[1], param._condition);
 						param._step_delta = _conv(q[2], 0);
 						if (param._condition !== 0) {
-							l += check_step(param._step_delta);
+							if (labels[param._step_delta]) {
+								l = labels[param._step_delta];
+							} else {
+								l += check_step(param._step_delta);
+							}
 						}
 						break;
 					case 'loop':
@@ -230,7 +277,9 @@ $(function () {
 						param[_conv(q[1])] = count;
 						//console.log("c="+count);
 						param._step_delta = _conv(q[2], 0);
-						if (!!check_step(count) && !!check_step(param._step_delta)) {
+						if (check_step(count) > 0 && labels[q[2]]) {
+							l = labels[q[2]];
+						} else if (check_step(count) > 0 && !!check_step(param._step_delta)) {
 							l += param._step_delta;
 						}
 						break;
@@ -251,7 +300,7 @@ $(function () {
 						if (q[0].startsWith('##')) {
 							console.log('rtk-board: ' + q.join(' ').substring(2));
 						} else if (q[0].startsWith('#')) {
-							// label
+							// Do nothing
 						} else {
 							console.log('rtk-board (skip): ' + JSON.stringify(que[l]));
 						}

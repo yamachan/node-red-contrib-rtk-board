@@ -39,6 +39,9 @@ Start with '#' shows a comment and/or label (label is not implimented yet). Star
 | font<br>tf<br>textFont | text_font | Set text font (e.g. 30px serif) |
 | t<br>text<br>ft<br>fillText | text | Draw filled text |
 | st<br>strokeText | text | Draw text curb |
+| i<br>img<br>image | src, x, y | Draw an image from URL |
+| iTo<br>imgTo<br>imageTo | src, x, y, w, h | Draw an image from URL with scaling |
+| wait | - | wait async commands (e.g. image) |
 
 ## Path Commands
 
