@@ -1,6 +1,21 @@
 # node-red-contrib-rtk-board
 A simple board function and node set for Node-RED
 
+![a demo of face node](img/face_anim.gif)
+
+# Nodes
+
+## output node
+
+![output node](img/node-output.png)
+
+
+
+## face node
+
+![output node](img/node-face.png)
+
+
 # Commands
 
 RTK Board node gets command list as a String or an Array of String.

@@ -11,7 +11,7 @@ module.exports = function (RED) {
       this.conf.top = config.top;
       function _command_args(_a) {
           for (let l=0; l<_a.length; l++) {
-              _a[l] = !!_a[l] ? _a[l] : '_';
+              _a[l] = _a[l] === '' ? '_' : _a[l];
           }
           return _a;
       }
@@ -21,15 +21,22 @@ module.exports = function (RED) {
       function _msg_join(_v, _c) {
           return typeof _v === 'string' ? _v + ';' + _c : Array.isArray(_v) ? _v.concat(_c) : _c;
       }
+      const faces = [ 'smile', 'ugly', 'sad', 'safe', 'angry', 'usual', 'clear'];
 	  node.on("input", function (msg, send, done) {
 		  send = send || function() { node.send.apply(node,arguments) }
 
           let list = _command_list(msg.payload);
-          let last = list.pop();
-		  let command = 'face ' + last + ' ' + _command_args([
-              this.conf.face, this.conf.width, this.conf.height, this.conf.left, this.conf.top, this.conf.lwidth
-          ]).join(' ');
-          msg.payload = _msg_join(list, command);
+          let last = list.pop().replace(/^\s+/, '').replace(/\s+$/, '');
+          if (faces.some(e => e === last)) {
+              let command = 'face ' + last + ' ' + _command_args([
+                  this.conf.face, this.conf.width, this.conf.height, this.conf.left, this.conf.top, this.conf.lwidth
+              ]).join(' ');
+              this.status({fill:"green",shape:"dot",text:last})
+              msg.payload = _msg_join(list, command);
+          } else {
+              this.status({})
+              msg.payload = _msg_join(list, last);
+          }
 		  send(msg);
 	  });
   }
