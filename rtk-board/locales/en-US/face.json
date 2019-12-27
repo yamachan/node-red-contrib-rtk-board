@@ -1,0 +1,19 @@
+{
+	"face" : {
+		"label" : {
+			"name" : "Name:",
+			"type" : "Type:",
+			"line" : "Line Width:",
+			"x" : "X:",
+			"y" : "Y:",
+			"width" : "Width:",
+			"height" : "Height:"
+		},
+		"placeholder" : {
+			"name" : "Name of this node"
+		},
+		"type" : {
+			"rf" : "Round face"
+		}
+	}
+}
